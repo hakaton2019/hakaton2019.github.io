@@ -111,13 +111,9 @@ body {
     color: white;
     background-color: #e0d065;
 }
-
-.btn-google {
-    color: white;
-    background-color: #bf513c;
-}
-
-.btn-facebook {
-    color: white;
-    background-color: #3b5998;
+.bg-dark {
+    position:fixed;
+    left:0px;
+    bottom:0px;
+    width:100%;
 }
