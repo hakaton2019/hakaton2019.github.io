@@ -1,0 +1,12 @@
+header {
+    position: relative;
+    background-color: none;
+    height: 65vh;
+    min-height: 25rem;
+    width: 100%;
+    overflow: hidden;
+}
+    header {
+        background: url('https://www.chaanimalshelter.org/wp-content/uploads/2014/07/bg_pets_lg2.jpg')
+        #e2e2e2 no-repeat center center scroll;
+    }

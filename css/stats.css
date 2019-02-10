@@ -1,0 +1,7 @@
+body {
+    background: url('http://spb.modulkartiny.ru/wp-content/uploads/2017/08/modul-naya-kartina-koty-mnogo-kotov-1024x576.jpg') no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    background-size: cover;
+    -o-background-size: cover;
+}
