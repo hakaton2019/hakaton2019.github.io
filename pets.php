@@ -36,9 +36,6 @@
                 <li class="nav-item">
                     <a class="nav-link" href="contacts.html">Contacts</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="login.html">Login</a>
-                </li>
             </ul>
         </div>
     </div>
@@ -51,7 +48,6 @@
     </h1>
 
 		<?php
-			// отдельно
 			$user = '';
 			$password = '';
 			$db = '';
