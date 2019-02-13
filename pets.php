@@ -50,8 +50,8 @@
 		<?php
             $user = '';
             $password = '';
-            $db = 'id8693019_petfinder';
-            $host = 'localhost';
+            $db = '';
+            $host = '';
 
 			$link = mysqli_init();
 			$success = mysqli_real_connect(

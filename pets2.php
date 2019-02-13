@@ -51,12 +51,10 @@
     <img class="img-fluid img-thumbnail" src="http://www.rentcafe.com/dmslivecafe/UploadedImages/fd506291-25cb-4339-b94e-14b01fef1bea.jpg">
 
         <?php
-            $user = 'root';
+            $user = '';
             $password = '';
-            #$user = 'id8693019_eushina';
-            #$password = 'hnGyGqU72NwU3dZ';
-            $db = 'id8693019_petfinder';
-            $host = 'localhost';
+            $db = '';
+            $host = '';
 
             $link = mysqli_init();
             $success = mysqli_real_connect(
