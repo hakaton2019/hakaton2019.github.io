@@ -47,54 +47,145 @@
         <small>waiting for adoption</small>
     </h1>
 
-		<?php
-            $user = '';
+    <div style="text-align:center"><h3><small>Search for a pet that best matches your needs!</small></h3></div>
+    <img class="img-fluid img-thumbnail" src="http://www.rentcafe.com/dmslivecafe/UploadedImages/fd506291-25cb-4339-b94e-14b01fef1bea.jpg">
+
+        <?php
+            $user = 'root';
             $password = '';
+            #$user = 'id8693019_eushina';
+            #$password = 'hnGyGqU72NwU3dZ';
             $db = 'id8693019_petfinder';
             $host = 'localhost';
 
-			$link = mysqli_init();
-			$success = mysqli_real_connect(
-			   $link,
-			   $host,
-			   $user,
-			   $password,
-			   $db
-			);
+            $link = mysqli_init();
+            $success = mysqli_real_connect(
+               $link,
+               $host,
+               $user,
+               $password,
+               $db
+            );
 
-			// SEARCH -> pets2.php
-			echo '<div style="text-align:center"><p class="lead">Search for a pet that best matches your needs or choose one directly from our database here.';
-			echo '<form action="pets2.php"><input class="button" type="submit" name="enter" value="Search"/></form></p></div>';
+            // SEARCH
 
-			#$ids = array(of smth);
-			#$sql = "SELECT * FROM main WHERE PetID IN ('" . implode("','", $ids) . "')";
-			$sql = "SELECT * FROM main";
+            $cols = array('Gender', 'Breed', 'Fee', 'Sterilized', 'State');
 
-			/*
-			0 Name
-			1 Age
-			2 Gender
-			3 Vaccinated
-			4 Dewormed
-			5 Sterilized
-			6 Fee
-			7 Description
-			8 PetID
-			9 Img
-			10 Contacts
-			11 Breed
-			12 State
-			*/
+            echo '<table border="1" align="center"><tr>';
+            foreach ($cols as &$col) {
+                echo '<th align="center">' . $col . '</th>';
+            }
+            echo '</tr>';
 
-			$result = mysqli_query($link, $sql);
-			$rows = mysqli_fetch_all($result);
+            /*
+            echo '<table border="1" align="center">';
+            // Gender
+                $q = "SELECT DISTINCT Gender FROM main ORDER BY Gender DESC";
+                $res = mysqli_query($link, $q);
+                
+                echo '<tr><td>';
+                echo '<form method="POST">';
+                @$g = $_POST['Gender'];
+                echo '<select name="Gender">';
+                #echo '<option selected></option>';
+                while ($row = mysqli_fetch_array($res)) {
+                    echo '<option value="' . $row['Gender'] . '">' . $row['Gender'] . '</option>';
+                }
+                echo '</select>';
 
-            mysqli_close($link);
-		?>
+                echo '<p><div style="text-align:center">
+                    <button class="button" type="submit" id="submit">Find</button>
+                </div></p>';
+
+                echo '</form></td></tr></table>';
+            // Breed
+            // Fee
+            // Sterilized
+            // State
+
+            $sql = "SELECT * FROM main WHERE Gender='" . $g . "'";
+            $result = mysqli_query($link, $sql);
+            $rows = mysqli_fetch_all($result);
+            */
+
+            echo '<p><tr>';
+
+            foreach ($cols as &$col) {
+                
+                $q = "SELECT DISTINCT " . $col . " FROM main ORDER BY " . $col . " DESC";
+                $res = mysqli_query($link, $q);
+
+                echo '<td>';
+                echo '<form method="POST">';
+
+                // POSTs
+                if ($col == 'Gender') { @$g = $_POST['Gender']; }
+                elseif ($col == 'Breed') { @$b = $_POST['Breed']; }
+                elseif ($col == 'Fee') { @$f = $_POST['Fee']; }
+                elseif ($col == 'Sterilized') { @$ster = $_POST['Sterilized']; }
+                elseif ($col == 'State') { @$stat = $_POST['State']; }
+
+                echo '<select name="' . $col . '">';
+
+                echo '<option selected>Any</option>';
+                while ($row = mysqli_fetch_array($res)) {
+                    echo '<option value="' . $row[$col] . '">' . $row[$col] . '</option>';
+                }
+                echo '</select></td>';
+            }
+            echo '</tr></table></p>';
+
+            echo '<p><div style="text-align:center">
+                <button class="button" type="submit" id="submit">Find</button>
+            </div></p>';
+
+            echo '</form>';
+
+            // currently in development
+
+            // Construct an SQL query!
+            $sql = "SELECT * FROM main WHERE ";
+
+            if ($g != 'Any') {
+                $sql .= "Gender='";
+                $sql .= $g;
+                $sql .= "'";
+            }
+            elseif ($b != 'Any') {
+                $sql .= "Breed='";
+                $sql .= $b;
+                $sql .= "'";
+            }
+            elseif ($f != 'Any') {
+                $sql .= "Fee='";
+                $sql .= $f;
+                $sql .= "'";
+            }
+            elseif ($ster != 'Any') {
+                $sql .= "Sterilized='";
+                $sql .= $ster;
+                $sql .= "'";
+            }
+            elseif ($stat != 'Any') {
+                $sql .= "State='";
+                $sql .= $stat;
+                $sql .= "'";
+            }
+
+            // currently in development
+
+            #$sql = "SELECT * FROM main WHERE Gender='" . $g . "' AND Breed='" . $b . "' AND Fee='" . $f . "' AND Sterilized='" . $ster . "' AND State='" . $stat . "'";
+            @$result = mysqli_query($link, $sql);
+            if (!$result) {
+                echo '<div style="text-align:center"><h3>No results matching your criteria.</h3></div>';
+            }
+            @$rows = mysqli_fetch_all($result);
+
+        ?>
 
     <div class="row">
     <?php
-        $size = sizeof($rows);
+        @$size = sizeof($rows);
         for ($i = 0; $i < $size; $i++) {
             echo '<div class="col-lg-4 col-sm-6 mb-4">
                 <div class="card h-100">
@@ -137,21 +228,21 @@
 
     <!-- Pagination -->
     <ul class="pagination justify-content-center">
-        <li class="page-item">
+        <!--li class="page-item">
             <a class="page-link" href="#" aria-label="Previous">
                 <span aria-hidden="true">&laquo;</span>
                 <span class="sr-only">Previous</span>
             </a>
-        </li>
+        </li-->
         <li class="page-item">
-            <a class="page-link" href="pets.php">1</a>
+            <a class="page-link" href="pets2.php">1</a>
         </li>
-        <li class="page-item">
+        <!--li class="page-item">
             <a class="page-link" href="#" aria-label="Next">
                 <span aria-hidden="true">&raquo;</span>
                 <span class="sr-only">Next</span>
             </a>
-        </li>
+        </li-->
     </ul>
 
 </div>
