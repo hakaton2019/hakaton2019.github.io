@@ -1,0 +1,35 @@
+.button {
+  -webkit-transition-duration: 0.4s;
+  transition-duration: 0.4s;
+  border-radius: 8px;
+  border: 2px solid tan;
+  font-size: 18px;
+  padding: 8px 20px;
+  color: gray;
+  background-color: white;
+}
+
+.button:hover {
+  background-color: tan;
+  color: white;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  border: white;
+}
+
+th {
+  background-color: tan;
+  color: white;
+}
+
+th, td {
+  text-align: center;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
