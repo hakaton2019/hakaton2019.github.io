@@ -163,14 +163,16 @@
             
         </div>';
                 ?>
+                <div style="text-align:center" class="ya-share2" data-services="vkontakte,facebook,twitter,whatsapp,telegram"></div>
             </div>
         </div>
+
     </div>
 
 
 </div>
 <footer id="sticky-footer" class="py-4 bg-dark text-white-50">
-    <div style="text-align:center" class="ya-share2" data-services="vkontakte,facebook,twitter,whatsapp,telegram"></div>
+
     <div class="container text-center">
         <small>This site was specially made for the ITGS Hakaton 2019</small>
     </div>
