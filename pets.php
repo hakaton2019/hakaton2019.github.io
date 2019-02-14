@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
     <link rel="stylesheet" href="css\pets.css">
+    <style> .button1 { background-color: white; color: darkblue; border: none; text-align: left; display: inline-block; font-size: 20px; padding: 0px; cursor: pointer; } </style>
 </head>
 <body>
 <!-- Navigation -->
@@ -100,7 +101,10 @@
     <div class="row">
     <?php
         $size = sizeof($rows);
-        for ($i = 0; $i < $size; $i++) {
+        $rands = range(0, $size-1);
+        shuffle($rands);
+        #for ($i = 0; $i < $size; $i++) {
+        foreach ($rands as $i) {
             echo '<div class="col-lg-4 col-sm-6 mb-4">
                 <div class="card h-100">
                     <a>';
@@ -109,12 +113,17 @@
                     <div class="card-body">
                         <h4 class="card-title">
                              <a style="color:darkblue">';
-                                echo $rows[$i][0];
+                                echo '<form method="GET" action="onepet.php">
+                                <input type="hidden" name="PetID" value="' . $rows[$i][8] . '">
+                                <button class="button1" type="submit">' . $rows[$i][0] . '</button>
+                                </form>';
+                                #echo $rows[$i][0];
                             echo '</a>
-                        </h4>
-                        <p class="card-text">';
+                        </h4>';
+                        echo '<p class="card-text">';
                             echo "<b>Age: </b>" . $rows[$i][1] . " (in months)<br>";
                             echo "<b>Gender: </b>" . $rows[$i][2] . "<br>";
+                        /*
                             echo "<b>Breed: </b>" . $rows[$i][11] . "<br>";
                             echo "<b>Colors: </b>";
                                 if ($rows[$i][13] != 'Unknown') { echo $rows[$i][13] . " "; }
@@ -137,8 +146,9 @@
                             echo "<b>Malaysian state: </b>" . $rows[$i][12] . "<br>";
                             echo "<b>Contact the owner(s): </b>" . substr($rows[$i][10], 0, -1) . "<br>";
                             echo "<b>Pet ID: </b>" . $rows[$i][8] . "<br>";
-                        echo '</p>
-                    </div>
+                        */
+                        echo '</p>';
+                    echo '</div>
                 </div>
             </div>';
         }

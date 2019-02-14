@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
     <link rel="stylesheet" href="css\pets.css">
+    <style> .button1 { background-color: white; color: darkblue; border: none; text-align: left; display: inline-block; font-size: 20px; padding: 0px; cursor: pointer; } </style>
 </head>
 <body>
 <!-- Navigation -->
@@ -87,7 +88,7 @@
 
                 echo '<td>';
                 echo '<form method="POST">';
-                // POSTs
+
                 if ($col == 'Gender') { @$g = $_POST['Gender']; $vars[] = $g; }
                 elseif ($col == 'Breed') { @$b = $_POST['Breed']; $vars[] = $b; }
                 elseif ($col == 'Fee') { @$f = $_POST['Fee']; $vars[] = $f; }
@@ -124,11 +125,10 @@
             $sql = substr($sql, 0, -5);
 
             @$result = mysqli_query($link, $sql);
-            if (!$result) {
+            if (mysqli_num_rows($result) == 0) {
                 echo '<div style="text-align:center"><h3>No results matching your criteria.</h3></div>';
             }
             @$rows = mysqli_fetch_all($result);
-
         ?>
 
     <div class="row">
@@ -142,13 +142,18 @@
                     echo '</a>
                     <div class="card-body">
                         <h4 class="card-title">
-                             <a style="color:darkblue">';
-                                echo $rows[$i][0];
+                            <a style="color:darkblue">';
+                                echo '<form method="GET" action="onepet.php">
+                                <input type="hidden" name="PetID" value="' . $rows[$i][8] . '">
+                                <button class="button1" type="submit">' . $rows[$i][0] . '</button>
+                                </form>';
+                                #echo $rows[$i][0];
                             echo '</a>
-                        </h4>
-                        <p class="card-text">';
+                        </h4>';
+                        echo '<p class="card-text">';
                             echo "<b>Age: </b>" . $rows[$i][1] . " (in months)<br>";
                             echo "<b>Gender: </b>" . $rows[$i][2] . "<br>";
+                        /*
                             echo "<b>Breed: </b>" . $rows[$i][11] . "<br>";
                             echo "<b>Colors: </b>";
                                 if ($rows[$i][13] != 'Unknown') { echo $rows[$i][13] . " "; }
@@ -171,8 +176,9 @@
                             echo "<b>Malaysian state: </b>" . $rows[$i][12] . "<br>";
                             echo "<b>Contact the owner(s): </b>" . substr($rows[$i][10], 0, -1) . "<br>";
                             echo "<b>Pet ID: </b>" . $rows[$i][8] . "<br>";
-                        echo '</p>
-                    </div>
+                        */
+                        echo '</p>';
+                    echo '</div>
                 </div>
             </div>';
         }
@@ -186,11 +192,11 @@
                 <span aria-hidden="true">&laquo;</span>
                 <span class="sr-only">Previous</span>
             </a>
-        </li-->
+        </li>
         <li class="page-item">
             <a class="page-link" href="pets2.php">1</a>
         </li>
-        <!--li class="page-item">
+        <li class="page-item">
             <a class="page-link" href="#" aria-label="Next">
                 <span aria-hidden="true">&raquo;</span>
                 <span class="sr-only">Next</span>
