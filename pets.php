@@ -48,10 +48,12 @@
     </h1>
 
 		<?php
-            $user = '';
-            $password = '';
-            $db = '';
-            $host = '';
+            #$user = 'root';
+            #$password = '';
+            $user = 'hakaton19_pets';
+            $password = 'hakaton19_pets';
+            $db = 'hakaton19_pets';
+            $host = 'localhost';
 
 			$link = mysqli_init();
 			$success = mysqli_real_connect(
@@ -84,6 +86,9 @@
 			10 Contacts
 			11 Breed
 			12 State
+            13 Color_1
+            14 Color_2
+            15 Color_3
 			*/
 
 			$result = mysqli_query($link, $sql);
@@ -111,6 +116,11 @@
                             echo "<b>Age: </b>" . $rows[$i][1] . " (in months)<br>";
                             echo "<b>Gender: </b>" . $rows[$i][2] . "<br>";
                             echo "<b>Breed: </b>" . $rows[$i][11] . "<br>";
+                            echo "<b>Colors: </b>";
+                                if ($rows[$i][13] != 'Unknown') { echo $rows[$i][13] . " "; }
+                                if ($rows[$i][14] != 'Unknown') { echo $rows[$i][14] . " "; }
+                                if ($rows[$i][15] != 'Unknown') { echo $rows[$i][15]; }
+                                echo "<br>";
                             echo "<b>Description: </b>" . $rows[$i][7] . "<br>";
                             echo "<b>Fee: </b>$" . $rows[$i][6] . "<br>";
                             echo "<b>The pet is: </b><br>";;

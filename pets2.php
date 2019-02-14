@@ -51,10 +51,12 @@
     <img class="img-fluid img-thumbnail" src="http://www.rentcafe.com/dmslivecafe/UploadedImages/fd506291-25cb-4339-b94e-14b01fef1bea.jpg">
 
         <?php
-            $user = '';
-            $password = '';
-            $db = '';
-            $host = '';
+            #$user = 'root';
+            #$password = '';
+            $user = 'hakaton19_pets';
+            $password = 'hakaton19_pets';
+            $db = 'hakaton19_pets';
+            $host = 'localhost';
 
             $link = mysqli_init();
             $success = mysqli_real_connect(
@@ -67,46 +69,16 @@
 
             // SEARCH
 
-            $cols = array('Gender', 'Breed', 'Fee', 'Sterilized', 'State');
+            $cols = array('Gender', 'Breed', 'Color_1', 'Color_2', 'Color_3', 'Fee', 'Sterilized', 'State');
 
             echo '<table border="1" align="center"><tr>';
             foreach ($cols as &$col) {
                 echo '<th align="center">' . $col . '</th>';
             }
             echo '</tr>';
-
-            /*
-            echo '<table border="1" align="center">';
-            // Gender
-                $q = "SELECT DISTINCT Gender FROM main ORDER BY Gender DESC";
-                $res = mysqli_query($link, $q);
-                
-                echo '<tr><td>';
-                echo '<form method="POST">';
-                @$g = $_POST['Gender'];
-                echo '<select name="Gender">';
-                #echo '<option selected></option>';
-                while ($row = mysqli_fetch_array($res)) {
-                    echo '<option value="' . $row['Gender'] . '">' . $row['Gender'] . '</option>';
-                }
-                echo '</select>';
-
-                echo '<p><div style="text-align:center">
-                    <button class="button" type="submit" id="submit">Find</button>
-                </div></p>';
-
-                echo '</form></td></tr></table>';
-            // Breed
-            // Fee
-            // Sterilized
-            // State
-
-            $sql = "SELECT * FROM main WHERE Gender='" . $g . "'";
-            $result = mysqli_query($link, $sql);
-            $rows = mysqli_fetch_all($result);
-            */
-
             echo '<p><tr>';
+
+            $vars = array();
 
             foreach ($cols as &$col) {
                 
@@ -115,16 +87,17 @@
 
                 echo '<td>';
                 echo '<form method="POST">';
-
                 // POSTs
-                if ($col == 'Gender') { @$g = $_POST['Gender']; }
-                elseif ($col == 'Breed') { @$b = $_POST['Breed']; }
-                elseif ($col == 'Fee') { @$f = $_POST['Fee']; }
-                elseif ($col == 'Sterilized') { @$ster = $_POST['Sterilized']; }
-                elseif ($col == 'State') { @$stat = $_POST['State']; }
+                if ($col == 'Gender') { @$g = $_POST['Gender']; $vars[] = $g; }
+                elseif ($col == 'Breed') { @$b = $_POST['Breed']; $vars[] = $b; }
+                elseif ($col == 'Fee') { @$f = $_POST['Fee']; $vars[] = $f; }
+                elseif ($col == 'Sterilized') { @$ster = $_POST['Sterilized']; $vars[] = $ster; }
+                elseif ($col == 'State') { @$stat = $_POST['State'];  $vars[] = $stat; }
+                elseif ($col == 'Color_1') { @$c1 = $_POST['Color_1']; $vars[] = $c1; }
+                elseif ($col == 'Color_2') { @$c2 = $_POST['Color_2']; $vars[] = $c2; }
+                elseif ($col == 'Color_3') { @$c3 = $_POST['Color_3']; $vars[] = $c3; }
 
                 echo '<select name="' . $col . '">';
-
                 echo '<option selected>Any</option>';
                 while ($row = mysqli_fetch_array($res)) {
                     echo '<option value="' . $row[$col] . '">' . $row[$col] . '</option>';
@@ -135,44 +108,21 @@
 
             echo '<p><div style="text-align:center">
                 <button class="button" type="submit" id="submit">Find</button>
-            </div></p>';
+            </div></p></form>';
 
-            echo '</form>';
-
-            // currently in development
-
-            // Construct an SQL query!
+            // Construct an SQL query
             $sql = "SELECT * FROM main WHERE ";
 
-            if ($g != 'Any') {
-                $sql .= "Gender='";
-                $sql .= $g;
-                $sql .= "'";
+            foreach ($vars as $i => $var) {
+                if ($var != 'Any') {
+                    $sql .= $cols[$i];
+                    $sql .= "='";
+                    $sql .= $var;
+                    $sql .= "' AND ";
+                }
             }
-            elseif ($b != 'Any') {
-                $sql .= "Breed='";
-                $sql .= $b;
-                $sql .= "'";
-            }
-            elseif ($f != 'Any') {
-                $sql .= "Fee='";
-                $sql .= $f;
-                $sql .= "'";
-            }
-            elseif ($ster != 'Any') {
-                $sql .= "Sterilized='";
-                $sql .= $ster;
-                $sql .= "'";
-            }
-            elseif ($stat != 'Any') {
-                $sql .= "State='";
-                $sql .= $stat;
-                $sql .= "'";
-            }
+            $sql = substr($sql, 0, -5);
 
-            // currently in development
-
-            #$sql = "SELECT * FROM main WHERE Gender='" . $g . "' AND Breed='" . $b . "' AND Fee='" . $f . "' AND Sterilized='" . $ster . "' AND State='" . $stat . "'";
             @$result = mysqli_query($link, $sql);
             if (!$result) {
                 echo '<div style="text-align:center"><h3>No results matching your criteria.</h3></div>';
@@ -200,6 +150,11 @@
                             echo "<b>Age: </b>" . $rows[$i][1] . " (in months)<br>";
                             echo "<b>Gender: </b>" . $rows[$i][2] . "<br>";
                             echo "<b>Breed: </b>" . $rows[$i][11] . "<br>";
+                            echo "<b>Colors: </b>";
+                                if ($rows[$i][13] != 'Unknown') { echo $rows[$i][13] . " "; }
+                                if ($rows[$i][14] != 'Unknown') { echo $rows[$i][14] . " "; }
+                                if ($rows[$i][15] != 'Unknown') { echo $rows[$i][15]; }
+                                echo "<br>";
                             echo "<b>Description: </b>" . $rows[$i][7] . "<br>";
                             echo "<b>Fee: </b>$" . $rows[$i][6] . "<br>";
                             echo "<b>The pet is: </b><br>";;
@@ -223,6 +178,26 @@
         }
     ?>
     </div>
+
+    <!-- Pagination -->
+    <ul class="pagination justify-content-center">
+        <!--li class="page-item">
+            <a class="page-link" href="#" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+                <span class="sr-only">Previous</span>
+            </a>
+        </li-->
+        <li class="page-item">
+            <a class="page-link" href="pets2.php">1</a>
+        </li>
+        <!--li class="page-item">
+            <a class="page-link" href="#" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+                <span class="sr-only">Next</span>
+            </a>
+        </li-->
+    </ul>
+
 </div>
 <footer id="sticky-footer" class="py-4 bg-dark text-white-50">
     <div class="container text-center">
