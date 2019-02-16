@@ -175,22 +175,22 @@
                     <!--Add your second radio button below-->
                     <input type="radio" id="no" name="vaccine" value="no">
                     <label for="no">No</label><br><br>
-
+                </section><section>
                     <span>Is pet dewormed?</span>
                     <!--Add your first radio button below-->
-                    <input id="yes" type="radio" name="vaccine" value="yes">
-                    <label for="yes">Yes</label>
+                    <input id="yes1" type="radio" name="deworm" value="yes1">
+                    <label for="yes1">Yes</label>
                     <!--Add your second radio button below-->
-                    <input type="radio" id="no" name="vaccine" value="no">
-                    <label for="no">No</label><br><br>
-
+                    <input type="radio" id="no1" name="deworm" value="no1">
+                    <label for="no1">No</label><br><br>
+                </section><section
                     <span>Is pet sterilized?</span>
                     <!--Add your first radio button below-->
-                    <input id="yes" type="radio" name="vaccine" value="yes">
-                    <label for="yes">Yes</label>
+                    <input id="yes2" type="radio" name="sterilize" value="yes2">
+                    <label for="yes2">Yes</label>
                     <!--Add your second radio button below-->
-                    <input type="radio" id="no" name="vaccine" value="no">
-                    <label for="no">No</label><br>
+                    <input type="radio" id="no2" name="sterelize" value="no2">
+                    <label for="no2">No</label><br>
                 </section><br>
                 <section>
                     <label for="fee">Fee for the pet
